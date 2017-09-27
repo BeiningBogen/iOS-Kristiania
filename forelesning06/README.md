@@ -140,24 +140,24 @@ NSBundle.mainBundle().loadNibNamed("MyView", owner: self, options:nil).first as!
 ---
 
 ```swift
-//// Color Declarations
-let bgColor = UIColor(red: 0.078, green: 0.705, blue: 0.912, alpha: 1.000)
 
-//// Star Drawing
-var starPath = UIBezierPath()
-starPath.moveToPoint(CGPointMake(frame.minX + 0.50000 * frame.width, frame.minY + 0.00000 * frame.height))
-starPath.addLineToPoint(CGPointMake(frame.minX + 0.66095 * frame.width, frame.minY + 0.31840 * frame.height))
-starPath.addLineToPoint(CGPointMake(frame.minX + 0.99872 * frame.width, frame.minY + 0.38093 * frame.height))
-starPath.addLineToPoint(CGPointMake(frame.minX + 0.76042 * frame.width, frame.minY + 0.64024 * frame.height))
-starPath.addLineToPoint(CGPointMake(frame.minX + 0.80823 * frame.width, frame.minY + 0.99728 * frame.height))
-starPath.addLineToPoint(CGPointMake(frame.minX + 0.50000 * frame.width, frame.minY + 0.83915 * frame.height))
-starPath.addLineToPoint(CGPointMake(frame.minX + 0.19177 * frame.width, frame.minY + 0.99728 * frame.height))
-starPath.addLineToPoint(CGPointMake(frame.minX + 0.23958 * frame.width, frame.minY + 0.64024 * frame.height))
-starPath.addLineToPoint(CGPointMake(frame.minX + 0.00128 * frame.width, frame.minY + 0.38093 * frame.height))
-starPath.addLineToPoint(CGPointMake(frame.minX + 0.33905 * frame.width, frame.minY + 0.31840 * frame.height))
-starPath.closePath()
-bgColor.setFill()
-starPath.fill()
+        let bgColor = UIColor(red: 0.078, green: 0.705, blue: 0.912, alpha: 1.000)
+
+        //// Star Drawing
+        let starPath = UIBezierPath()
+        starPath.move(to: CGPoint(x:frame.minX + 0.50000 * frame.width,y:  frame.minY + 0.00000 * frame.height))
+        starPath.addLine(to: CGPoint(x:frame.minX + 0.66095 * frame.width, y: frame.minY + 0.31840 * frame.height))
+        starPath.addLine(to: CGPoint(x: frame.minX + 0.99872 * frame.width,y: frame.minY + 0.38093 * frame.height))
+        starPath.addLine(to: CGPoint(x: frame.minX + 0.76042 * frame.width,y: frame.minY + 0.64024 * frame.height))
+        starPath.addLine(to: CGPoint(x: frame.minX + 0.80823 * frame.width,y: frame.minY + 0.99728 * frame.height))
+        starPath.addLine(to: CGPoint(x: frame.minX + 0.50000 * frame.width,y: frame.minY + 0.83915 * frame.height))
+        starPath.addLine(to: CGPoint(x: frame.minX + 0.19177 * frame.width, y: frame.minY + 0.99728 * frame.height))
+        starPath.addLine(to: CGPoint(x: frame.minX + 0.23958 * frame.width, y: frame.minY + 0.64024 * frame.height))
+        starPath.addLine(to: CGPoint(x:frame.minX + 0.00128 * frame.width, y: frame.minY + 0.38093 * frame.height))
+        starPath.addLine(to: CGPoint(x:frame.minX + 0.33905 * frame.width,y: frame.minY + 0.31840 * frame.height))
+        starPath.close()
+        bgColor.setFill()
+        starPath.fill()
 ```
 
 ---
