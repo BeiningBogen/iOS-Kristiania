@@ -674,33 +674,11 @@ Som du så i det første eksempelet, så er Swift nøye med typer
 # Eksempelvis denne json strukturen
 
 ```json
-[
-  {
-
-    "text": "just another test",
-    "user": {
-      "name": "OAuth Dancer",
-      "favourites_count": 7,
-      "entities": {
-        "url": {
-          "urls": [
-            {
-              "expanded_url": null,
-              "url": "http://bit.ly/oauth-dancer",
-              "indices": [
-                0,
-                26
-              ],
-              "display_url": null
-            }
-          ]
-        }
-
-    },
-    "in_reply_to_screen_name": null,
-  }
-  }
-]
+{ "name" : "Matrix",
+  "genre" : "Sci-fi",
+  "year" : 2003,
+  "rating" : 9.8
+}
 ```
 
 ---
@@ -708,22 +686,74 @@ Som du så i det første eksempelet, så er Swift nøye med typer
 # Hente ut navn med vanlig Swift kode
 
 ```swift
-let jsonObject : AnyObject! = NSJSONSerialization.JSONObjectWithData(dataFromTwitter,
-  options: NSJSONReadingOptions.MutableContainers, error: nil)
+struct Movie {
+  let name: String
+  let genre: String?
+  let year : Int
+  let rating: Double
 
-if let statusesArray = jsonObject as? NSArray{
-    if let aStatus = statusesArray[0] as? NSDictionary{
-        if let user = aStatus["user"] as? NSDictionary{
-            if let userName = user["name"] as? NSDictionary{
-
-                print(userName)
-
-            }
-        }
+  init?(attributes: [String : Any]) {
+    guard let name = attributes["name"] as? String, let year = attributes["year"] as? Int, let rating = attributes["rating"] as? Double else {
+      return nil
     }
+      self.name = name
+      self.genre = attributes["genre"] as? String
+      self.year = year
+      self.rating = rating
+  }
 }
-```
 
+let jsonDict  = NSJSONSerialization.JSONObjectWithData(data,
+  options: NSJSONReadingOptions.MutableContainers, error: nil) as? [String : Any]
+
+Movie(attributes: jsonDict)
+
+
+
+```
+---
+
+#Swift 4
+```Swift
+struct Movie : Decodable{
+    let name: String
+    let genre: String?
+    let year : Int
+    let rating: Double
+
+    enum Keys: String, CodingKey {
+        case name
+        case genre
+        case year
+        case rating
+    }
+
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: Keys.self)
+        self.name = try container.decode(String.self, forKey: Keys.name)
+        self.rating = try container.decode(Double.self, forKey: Keys.rating)
+        self.year = try container.decode(Int.self, forKey: Keys.year)
+        self.genre = try container.decode(String?.self, forKey: Keys.genre)
+    }
+
+}
+
+```
+---
+
+```Swift
+let json =
+"""
+{ "name" : "Matrix",
+"genre" : "Sci-fi",
+"year" : 2003,
+"rating" : 9.8
+}
+"""
+
+let movie = try JSONDecoder().decode(Movie.self, from: json.data(using: String.Encoding.utf8)!)
+```
 ---
 
 # Videre lesning
