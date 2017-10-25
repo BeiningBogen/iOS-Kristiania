@@ -1,1 +1,11 @@
-[{ "name" : "Star Wars" }]
+[{
+		"title": "Star Wars",
+		"id": "1",
+		"imdbRating": 7.8
+	},
+	{
+		"title": "Matrix",
+		"id": "2",
+		"imdbRating": 8.5
+	}
+]
