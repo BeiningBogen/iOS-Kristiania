@@ -27,5 +27,11 @@
 		"id": "5",
 		"imdbRating": 6.0,
 	 "description": ":("
+	} ,
+   {
+		"title": "Up", 
+		"id": "6",
+		"imdbRating": 9.0,
+	 "description": ":("
 	}
 ]
