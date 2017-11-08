@@ -1,16 +1,19 @@
 [{
 		"title": "Star Wars",
 		"id": "1",
-		"imdbRating": 7.8
+		"imdbRating": 7.8,
+		"description": "Fun movie"
 	},
 	{
 		"title": "Matrix",
 		"id": "2",
-		"imdbRating": 8.5
+		"imdbRating": 8.5,
+		"description": "good movie"
 	},
  {
 		"title": "Pulp Fiction",
 		"id": "3",
-		"imdbRating": 9.0
+		"imdbRating": 9.0,
+	 "description": "Great movie!"
 	}
 ]
