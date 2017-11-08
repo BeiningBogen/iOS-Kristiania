@@ -1,0 +1,37 @@
+[{
+		"title": "Titanic 1",
+		"id": "1",
+		"imdbRating": 3.8,
+		"description": "Fun movie"
+	},
+	{
+		"title": "Shrek 4",
+		"id": "2",
+		"imdbRating": 8.5,
+		"description": "good movie"
+	},
+ {
+		"title": "Lord of the rings", 
+		"id": "3",
+		"imdbRating": 9.0,
+	 "description": "Great movie!"
+	},
+  {
+		"title": "Blade runner 2081", 
+		"id": "4",
+		"imdbRating": 2.0,
+	 "description": ":D"
+	},
+   {
+		"title": "Lady og landstrykeren 10 000", 
+		"id": "5",
+		"imdbRating": 6.0,
+	 "description": ":("
+	} ,
+   {
+		"title": "Up", 
+		"id": "6",
+		"imdbRating": 9.0,
+	 "description": ":("
+	}
+]
