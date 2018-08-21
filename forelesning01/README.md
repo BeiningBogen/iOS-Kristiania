@@ -6,7 +6,6 @@
 ---
 
 ## Håkon Bogen
-## Hans Fredrik F. Brastad
 
 ### Beining & Bogen ###
 ##### beiningbogen.no
@@ -54,8 +53,8 @@ https://github.com/BeiningBogen/iOS-Westerdals
 
 # Xcode 8
 
-* Xcode 8 : https://developer.apple.com/support/xcode/
-* Xcode 9/Swift 4 : slippes iløpet av september
+* Xcode 9 : https://developer.apple.com/support/xcode/
+* Xcode 10/Swift 4.2 : slippes iløpet av september
 
 ## DEMO
 
