@@ -199,59 +199,45 @@ For mer komplekse behov, når du trenger:
 
 # Terminologi
 
-* **Managed Object Context** - "hovedobjektet" mot Core Data. Håndterer et sett Managed Objects og deres lifssyklus
-* **Persistent Store Coordinator** - abstraherer bort underliggende store. Implementerer henting/lagring/sletting/m.m. av MOM mot store
-* **Managed Object Model** - som et slags databaseskjema
-* **Persistent Object Store** - XML, SQLite, Binær, custom
+les her:
+https://developer.apple.com/library/archive/documentation/DataManagement/Devpedia-CoreData/coreDataStack.html#//apple_ref/doc/uid/TP40010398-CH25-SW1
+
 
 ![fit right](img/coredata.png)
 
 ---
 
-# ManagedObjectContext
+# Inngangspunktet til Core Data
 
-```swift
-lazy var managedObjectContext: NSManagedObjectContext? = {
-    let coordinator = self.persistentStoreCoordinator
-    if coordinator == nil {
-        return nil
-    }
-    var managedObjectContext = NSManagedObjectContext()
-    managedObjectContext.persistentStoreCoordinator = coordinator
-    return managedObjectContext
+```
+lazy var persistentContainer: NSPersistentContainer = {
+    /*
+     The persistent container for the application. This implementation
+     creates and returns a container, having loaded the store for the
+     application to it. This property is optional since there are legitimate
+     error conditions that could cause the creation of the store to fail.
+    */
+    let container = NSPersistentContainer(name: "CoreDataTest")
+    container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+        if let error = error as NSError? {
+            // Replace this implementation with code to handle the error appropriately.
+            // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+
+            /*
+             Typical reasons for an error here include:
+             * The parent directory does not exist, cannot be created, or disallows writing.
+             * The persistent store is not accessible, due to permissions or data protection when the device is locked.
+             * The device is out of space.
+             * The store could not be migrated to the current model version.
+             Check the error message to determine what the actual problem was.
+             */
+            fatalError("Unresolved error \(error), \(error.userInfo)")
+        }
+    })
+    return container
 }()
-```
-
----
-
-
-# ManagedObjectModel
-
-```swift
-lazy var managedObjectModel: NSManagedObjectModel = {
-    let modelURL = NSBundle.mainBundle().URLForResource("Workouts",
-    	withExtension: "momd")!
-    return NSManagedObjectModel(contentsOfURL: modelURL)!
-}()
 
 ```
-
----
-
-# PersistentStoreCoordinator
-
-```swift
-    lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator = {
-
-        // Create the coordinator and store
-        let coordinator = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
-        let url = self.applicationDocumentsDirectory.URLByAppendingPathComponent("SingleViewCoreData.sqlite")
-
-      	let coordinator = the try! coordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: url, options: nil)
-      	return coordinator
-     }
-```
-
 
 ---
 
@@ -493,7 +479,6 @@ func controller(controller: NSFetchedResultsController,
 # Keychain
 
 * For lagring av sensitive data (passord m.m.)
-* C API :'-(
 * Se "iOS Keychain Services Tasks" i dokumentasjonen for mer info
 * Typisk bra å bruke Cocoapods for https://cocoapods.org/pods/SwiftKeychain
 
