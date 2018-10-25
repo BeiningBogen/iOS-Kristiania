@@ -5,12 +5,6 @@
 		"description": "Fun movie"
 	},
 	{
-		"title": "Shrek 4",
-		"id": "2",
-		"imdbRating": 8.5,
-		"description": "good movie"
-	},
-	{
 		"title": "Lord of the rings",
 		"id": "3",
 		"imdbRating": 9.0,
