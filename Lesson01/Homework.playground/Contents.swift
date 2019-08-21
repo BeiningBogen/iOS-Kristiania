@@ -115,3 +115,28 @@ let numberOfLaunches = [19, 55, 135, 1]
 //:    Falcon 9 : 19 launches
 //:    ...
 //:    My water bottle-rocket : 1 launch        // note that that there the missing plural "s" when there is only 1 launch
+
+
+//:## Task #11
+
+//: complete the following functions to return the expected result
+
+func parseLanguages(languages: String) -> [String] {
+    // Write your code here
+    return []
+}
+
+func sortLanguages(languages: [String]) -> [String] {
+    // Write your code here
+    return []
+}
+
+let languages = "Swift, Java, Objective-C, Python"
+
+let languagesArray = parseLanguages(languages: languages)
+
+let sortedLanguages = sortLanguages(languages: languagesArray)
+
+print(sortedLanguages)
+
+//: expectd result: ["Java", "Objective-C", "Python", "Swift"]
