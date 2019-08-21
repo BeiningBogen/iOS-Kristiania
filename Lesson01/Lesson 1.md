@@ -16,7 +16,7 @@
 
 ```
 
-https://github.com/BeiningBogen/iOS-Westerdals
+https://github.com/BeiningBogen/iOS-Kristiania
 
 ```
 
@@ -525,4 +525,4 @@ _xcode-select -s /Applications/Xcode.app/Contents/Developer_
 
 # Homework
 
-##       https://github.com/BeiningBogen/iOS-Westerdals
+##       https://github.com/BeiningBogen/iOS-Kristiania
