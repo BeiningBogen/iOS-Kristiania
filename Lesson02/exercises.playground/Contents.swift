@@ -1,3 +1,7 @@
+import UIKit
+
+
+
 /*:
 # Øvingsoppgaver forelesning 2
 
