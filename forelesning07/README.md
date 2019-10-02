@@ -75,6 +75,12 @@ NSLog("Logg objekter")
 # NSLogger
 ##### https://github.com/fpillet/NSLogger
 
+---
+
+![inline](./img/mainwindow.png)
+
+---
+
 ```swift
 
 import NSLogger
