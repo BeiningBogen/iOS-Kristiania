@@ -100,15 +100,7 @@ Logger.shared.log(.custom("My Domain"), .noise, someDataObject)
 
 ---
 
-## Debugging og informasjon
-<br />
 # Unit tests
-
----
-<br /><br /><br /><br /><br />
-# Apple sitt XCTest kan brukes til å skrive tester
-
----
 
 ```swift
 import XCTest
@@ -205,7 +197,7 @@ func testAsynchronousURLConnection() {
 func testPerformanceExample() {
     // Tester performance med self.measureBlock
     self.measureBlock() {
-        // Her puttes koden du ønsker å teste tiden på
+        // Time the stuff here
     }
 }
 
@@ -286,7 +278,7 @@ Debug small functions or views
 
 ---
 
-# Asynkronitet
+# Async
 
 ---
 
@@ -399,7 +391,6 @@ operationQueue.addOperation(backgroundOperation)
 
 ---
 
-<br><br><br>
 # Web requests
 
 
@@ -456,12 +447,10 @@ XCPSetExecutionShouldContinueIndefinitely()
 
 ---
 
+# Alamofire og REST
 ## https://github.com/Alamofire/Alamofire
 
-
 ---
-
-# Alamofire og REST
 
 ```swift
 
@@ -481,10 +470,6 @@ Alamofire.request(.GET,  "http://jsonplaceholder.typicode.com/posts")
         }
 
 ```
-
----
-
-## https://github.com/Alamofire/Alamofire
 
 ---
 
