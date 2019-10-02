@@ -8,13 +8,12 @@
 
 # Sist gang
 
-* Viewkonsepter
-* Å instansiere views
-* Å lage custom views
-* Eventhåndtering
+* View concepts
+* Instantiating views
+* Custom views
+* Events
 * Gestures
-* Animasjoner
-
+* Animaions
 
 ---
 
@@ -22,21 +21,22 @@
 
 * Debugging
 * Testing
-* Swift og gjenbruk av kode
-  * Rammeverk
+* Swift and code reuse
+  * Framework
   * Cocoapods & Carthage
-* Tråder og asynkronitet
-* Snakke med internett
+* Threads and asyncronicity
+* web requests
 * try & json
 
 
 ---
 
-# Sørg for god informasjon på forhånd
+# Debugging
 
-* Bruk logging
+* Breakpoints
+* Loggin
 * Unit tests
-* Assertions ( ikke så vanlig lenger )
+* Assertions (or force unwraps)
 
 
 ---
@@ -62,41 +62,33 @@
 ```swift
 
 
-// Til console i XCode
+// console i XCode
 print("Logg en linje")
 
-// Til console på device
+// Device console (can be shown in console of device, without xcode)
 NSLog("Logg objekter")
 
 ```
 
 ---
 
-# Logging med swell
-##### https://github.com/hubertr/Swell
+# NSLogger
+##### https://github.com/fpillet/NSLogger
 
 ```swift
-class ContactService {
 
-    let logger = Swell.getLogger("ContactService")
+import NSLogger
 
-    func getContact(name: String) {
-        Swell.info("Retrieving contact for \(name)")
-        ...
+[…]
 
-        //named logger
-        logger.debug("Retrieving contact for \(name)")
+// logging some messages
+Logger.shared.log(.network, .info, "Checking paper level…")
 
+// logging image
+Logger.shared.log(.view, .noise, myPrettyImage)
 
-        //complex logger
-        logger.trace {
-            let city = getCityFor(name)
-            return "Retrieving contact for \(name) of \(city)"
-        }
-    }
-
-}
-
+// logging data
+Logger.shared.log(.custom("My Domain"), .noise, someDataObject)
 //Swell.plist for å konfigurere
 ```
 
@@ -141,7 +133,7 @@ class FontSorterTests: XCTestCase {
 
 ---
 
-# Viktige test assertions, det finnes flere
+# XCode test assertions
 
 ```swift
 XCTAssert(expression, format...) // hvis expression = true, så er testen ok
@@ -169,6 +161,7 @@ XCTAssertNotNil(expression, format...) // teste optionals
 
 ```swift
 func testAsynchronousURLConnection() {
+
     let URL = "http://mobile-course.herokuapp.com/message"
     let expectation = expectationWithDescription("GET \(URL)")
 
@@ -214,42 +207,47 @@ func testPerformanceExample() {
 
 ---
 
-## Debugging og informasjon
-<br />
-# Assertion i kode
+# Code level assertions
+
+* Optionals for values that *have* to be present for the app to run
+* Crashing the app is better than user getting stuck
+* Remember to run through the app before release though!
 
 ---
+### Force unwraps
+```swift
 
-* Optionals lar oss sjekke om verdien ikke eksiterer, derav skrive kode som ikke feiler eller knekker appen
-* Noen ganger så kan det skje at man ikke kan gå videre hvis verdier ikke finnes eller verdier har feil verdi
-* I slike situasjoner kan man bruke assertions for å gi en feilmelding til utvikleren slik at det blir lettere å debugge
-* En assertion sjekker om noe er sant og hvis <false> så avsluttes applikasjonen
+@IBOutlet weak var UILabel titleLabel!
 
----
+```
+
+### Normal assertion (not widely used)
 
 ```swift
 
+assert(age > 13, "Registered age is not above 13")
 
-
-
-
-let age = 12
-assert(age >= 13, "Personen må vœre 13 eller eldre")
 ```
 
 ---
 
-# Når skal man bruke assertions?
-* Bruk det når noe kan vœre feil, men koden din er avhengig av at det alltid er riktig. Eksempler:
-  * Når `subscript` index er utenfor mulige verdier
-  * Når en verdi er sendt inn til en funksjon, men funksjonen kan ikke utføre oppgaven, da verdien er umulig å bruke
-  * Når en optional må vœre satt for at koden skal kunne kjøre
+# NB remember this common mistake!
+
+```swift
+
+let myArray = ["aString", "anotherString"]
+
+let value = myArray[3]
+
+💥💥💥💥💥💥💥💥💥💥💥
+
+```
 
 ---
 
 ## Debugging
 # View
-Trykk pause når applikasjonen din kjører
+Pause the app while running
 
 ---
 
@@ -261,36 +259,24 @@ Trykk pause når applikasjonen din kjører
 <br />
 # Playground
 
-Bruk playground til å debugge kodesnutter
+Debug small functions or views
+
+---
+# Code reuse / frameworks
+
+
+* Import files directly
+* Cocoapods
+* Carthage
+* Swift Package manager
 
 ---
 
-## Debugging Demo
-<br />
-# Breakpoints
+# Frameworks
 
----
-# Swift og gjenbruk av kode
-
-Det finnes tre måter å dele kode på i Swift
-
-* Importer filene inn til ditt prosjekt direkte
-* Cocoa Touch Static Library
-* Cocoa Touch Framework (nytt og bedre)
-
-Pakke-manager:
-
-* CocoaPods - Cocoapods.org
-* Carthage - Mindre intrusive for prosjekt men mer jobb
-
----
-
-# Cocoa Touch Frameworks
-
-* Tilgjengelig fra og med Xcode 6
-* Brukes i forbindelse med:
-  * Extentions (brukes i Extensions og Apple Watch)
-  * Lage gjenbrukbare moduler/rammeverk på tvers av prosjekter
+* Makes it  easier to reuse code
+* Good for an app with many targets
+* Remember public / private / internal
 
 ---
 
@@ -298,20 +284,41 @@ Pakke-manager:
 
 ---
 
-- Hovedtråden er den som man vanligvis er på og som tegner GUI
-- Andre tråder brukes når man ønsker å gjøre tyngre jobber som ikke skal blokkere GUI
-- Vi har tre måter å lage tråder på:
+- Main thread can draw GUI
+- Use other threads for big calculations
+- Different options for making threads
   - NSThread
   - Grand Central Dispatch
   - NSOperationQueue
 
 ---
 
+
+# Grand Central Dispatch
+
+- Creates the threads for you
+- Based on queues of tasks
+- Two types of tasks
+  1. Serial - En oppgave av gangen
+  2. Concurrent - Kan utføre flere oppgaver samtidig
+
+```swift
+ DispatchQueue.init(label: "another thread").async {
+   /// Do stuff
+
+   // Back to main thread!
+   DispatchQueue.main.async {
+     // draw images, update GUI
+   }
+
+}
+
+```
+
+---
 # NSTread
 
-* Lite brukt i iOS verden, men kjekk å vite om
-* Krever manuell håndtering
-* Apple anbefaler å bruke GCD eller NSOperationQueues
+* Not widely used
 
 ```swift
 // Lag en ny tråd
@@ -320,107 +327,21 @@ NSThread.detachNewThreadSelector("someMethod", toTarget: self, withObject: nil)
 var thread = NSThread(target: self, selector: "testMethod", object: nil)
 thread.start()
 thread.cancel()
-thread.isMainThread
 ```
-
 ---
 
-# Grand Central Dispatch
+# NSOperation, NSOperationQueue
 
-- Håndterer trådene for deg
-- Baserer seg på køer med oppgaver
-- Det finnes to typer køer
-  1. Serial - En oppgave av gangen
-  2. Concurrent - Kan utføre flere oppgaver samtidig
-
-
----
-
-# Bruk køene til å uføre oppgaver
-
-Asynkrone funksjoner
-- dispatch\_async
-- dispatch\_after
-- dispatch\_apply
-
-
-Synkrone funksjoner
-- dispatch\_once
-- dispatch\_sync
-
----
-
-# Bruker disse mest
-
-```swift
-
- // asynkron jobb så tilbake på main
-dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-	// do some task
-	image = generateComplexImage()
-	dispatch_async(dispatch_get_main_queue(), ^{
-		self.view.addSubview(UIImageView(image))
-	});
-});
-
-// Delay
-
-let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
-dispatch_after(delayTime, dispatch_get_main_queue()) {
-    print("After 1 second")
-}
-```
-
----
-
-# GCD og Async
-#### https://github.com/duemunk/async
-
-* En abstraksjon av Grand Central Dispatch api'et
-* Lettere syntak, mer man bør kunne GCD fra før av
-* Mindre verbost
-
----
-
-```swift
-
-
-Async.background {
-    print("Kjører på bakgrunnskøen")
-}.main {
-    print("Kjører på hovedtråden etter bakgrunnsjobben er ferdig")
-}
-
-// i stedet for
-
-dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {
-    print("Kjører på bakgrunnskøen")
-
-    dispatch_async(dispatch_get_main_queue(), 0), {
-        print("Kjører på hovedtråden etter bakgrunnsjobben er ferdig")
-    })
-})
-```
-
----
-
-<br><br><br>
-# NSOperation og NSOperationQueue
-
----
-
-# NSOperation
-
-* En enhet av arbeid
-* En abstrakt klasse som man arver fra
+* One unit of work
+* Abstract class you inherit from
 
 Alternativer
-NSBlockOperation - Lag en closure som du ønsker å gjøre i bakgrunn
-NSInvocationOperation - Kjører en metode i bakgrunn
+NSBlockOperation - Create a closure that runs in a thread
+NSInvocationOperation - Runs a function in a thread
 
 ---
 
-# For å starte NSOperation
+# Starting a NSOperation
 
 ```swift
 
@@ -432,16 +353,15 @@ operation.cancel()
 
 ```
 <br />
-eller legg det i en kø
 
 ---
 
-# NSOperationQueue
+# Put in NSOperationQueue
 
-* Håndterer kjøringen av et sett med NSOperation, NSBlockOperation eller NSInvocationOperation
-* First-In-First-Out med mindre man prioriterer oppgavene eksplisitt
-* Man kan bestemme maks antall samtidige jobber med `maxConcurrentOperationCount`
-* Bruker Grand Central Dispatch i bakgrunnen
+* Runs a set of NSOperation, NSBlockOperation or NSInvocationOperation
+* First-In-First-Out as a standard
+* Set max concurrent tasks with `maxConcurrentOperationCount`
+* Uses Grand Central Dispatch
 
 ---
 <br />
@@ -455,9 +375,6 @@ eller legg det i en kø
 
 ```swift
 
-
-
-
 let backgroundOperation = NSOperation()
 backgroundOperation.qualityOfService = .Background
 
@@ -470,34 +387,34 @@ operationQueue.addOperation(backgroundOperation)
 
 # NSThread vs GCD vs NSOperationQueue
 
-- NSTread når du trenger full kontroll over trådene du lager
-- GCD når du trenger enkel parallellisering (kast denne jobben inn i en bakgrunnstråd)
-- NSOperationQueue når du har mer komplekse jobber du vil parallelisere
+- GCD for easy use, day to day usage
+- NSTread if you need full control
+- NSOperationQueue if you need to set queues with maxs tasks, specific ordering etc
 
 ---
 
 <br><br><br>
-# Snakke med internett
+# Web requests
 
 
 ---
 
-# Http metoder
+# Http methods
 
-GET - Hente ned data
+GET - Get data
 
-POST - Sende ny data
+POST - Send data
 
-PUT - Oppdatere all eksisterende data
+PUT - Update data
 
-PATCH - Oppdatere eksisterende data med bare noen felter
+PATCH - Update some fields only
 
-DELETE - Slette data
+DELETE - Delete data
 
 ---
 
 ```swift
-let url = NSURL(string: "http://mobile-course.herokuapp.com/message")
+let url = NSURL(string: "http://ip.jsontest.com")
 let session = NSURLSession.sharedSession()
 let task = session.dataTaskWithURL(url, completionHandler: { (data, response, error) -> Void in
     print(data)
@@ -623,12 +540,12 @@ Alamofire.request(.GET,  "http://jsonplaceholder.typicode.com/posts")
 ---
 
 
-# Try!
+# Force Try!
 
 
 ```swift
 
-// krasjer hvis throws error
+// crash if error
 try! login()
 
 
@@ -655,35 +572,9 @@ func titlesFromJSON(data: NSData) -> [String] {
     return titles
 }
 ```
-
 ---
 
-
-
-# SwiftyJSON
-
-Som du så i det første eksempelet, så er Swift nøye med typer
-
-- SwiftyJSON prøver å hjelpe oss med akkurat dette
-
-
-## https://github.com/SwiftyJSON/SwiftyJSON
-
----
-
-# Eksempelvis denne json strukturen
-
-```json
-{ "name" : "Matrix",
-  "genre" : "Sci-fi",
-  "year" : 2003,
-  "rating" : 9.8
-}
-```
-
----
-
-# Hente ut navn med vanlig Swift kode
+# Find name
 
 ```swift
 struct Movie {
@@ -693,6 +584,7 @@ struct Movie {
   let rating: Double
 
   init?(attributes: [String : Any]) {
+
     guard let name = attributes["name"] as? String, let year = attributes["year"] as? Int, let rating = attributes["rating"] as? Double else {
       return nil
     }
