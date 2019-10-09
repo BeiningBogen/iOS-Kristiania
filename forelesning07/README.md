@@ -1,12 +1,10 @@
 # PG5600
-# iOS programmering
-## Forelesning 7
-
-
+# iOS programming
+## Lecture 7
 
 ---
 
-# Sist gang
+# Last time
 
 * View concepts
 * Instantiating views

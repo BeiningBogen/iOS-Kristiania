@@ -31,23 +31,24 @@
 # Hvor filer lagres
 
 ```swift
-let fm = FileManager.default()
+let fm = FileManager.default
 
 // <app home>/Documents, backes opp, kan bli vist til bruker
 // For brukerens datafiler
-print(fm.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)[0])
+
+fm.urls(for: .documentDirectory, in: .userDomainMask)
 
 // <app home>/Library, backes opp, skjult
 // For det som ikke er brukerens datafiler
-print(fm.URLsForDirectory(.LibraryDirectory, inDomains: .UserDomainMask)[0])
+fm.urls(fol: .libraryDirectory, in: .userDomainMask)
 
 // <app home>/Library/Caches, backes IKKE opp, skjult
 // F.eks. for caching av bilder
-print(fm.URLsForDirectory(.CachesDirectory, inDomains: .UserDomainMask)[0])
+fm.urls(fol: .cachesDirectory, in: .userDomainMask)
 
 // <app home>/tmp, backes IKKE opp
 // For midlertidige filer som ikke trenger å eksistere mellom launches
-print(TemporaryDirectory())
+print(NSTemporaryDirectory())
 ```
 
 ---
@@ -55,16 +56,15 @@ print(TemporaryDirectory())
 # Skriv og les string til disk
 
 ```swift
-   let dir = FileManager.default().URLsForDirectory(.DocumentDirectory,
-            inDomains: .UserDomainMask)[0] as! URL
 
-   let string: NSString = "Hello world"
+       let dir = FileManager.default.urls(for: .documentDirectory,
+                                          in: .userDomainMask)[0]
 
-   let path = dir.URLByAppendingPathComponent("file.txt").path!
+       let string: NSString = "Hello world"
 
-   try! string.writeToFile(path, atomically: true, encoding:NSUTF8StringEncoding)
+       let path = dir.appendingPathComponent("file.txt").path
 
-   let savedString = try! NSString(contentsOfFile: path, encoding: NSUTF8StringEncoding)
+       try! string.write(toFile: path, atomically: true, encoding: String.Encoding.utf8.rawValue)
 
 ```
 
@@ -73,12 +73,11 @@ print(TemporaryDirectory())
 # Skriv og les NSDictionary til plist
 
 ```swift
-let dir = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory,
-				inDomains: .UserDomainMask)[0] as NSURL
+let dir = FileManager.default.urls(for: .documentDirectory,
+                                   in: .userDomainMask)[0]
 let dict = ["workouts": 23] as NSDictionary
-print(dir)
 
-let path = dir.URLByAppendingPathComponent("file.plist").path!
+let path = dir.appendingPathComponent("file.txt").path
 
 // Skriv
 dict.writeToFile(path, atomically: true)
@@ -103,7 +102,7 @@ print(NSDictionary(contentsOfFile: path))
 ---
 
 ```swift
-let userDefaults = NSUserDefaults.standardUserDefaults()
+let userDefaults = UserDefaults.standard
 userDefaults.setObject("Tim Cook", forKey: "name")
 
 if let name = userDefaults.stringForKey("name") {
@@ -125,16 +124,16 @@ userDefaults.synchronize()
 # NSKeyedArchiver / NSKeyedUnarchiver
 
 * For serialisering av objekter til disk
-* Klasser som skal serialiseres må implementere NSCoding-protokollen. Mange standard datatyper gjør dette allerede.
+* Klasser som skal serialiseres må implementere Coding-protokollen. Mange standard datatyper gjør dette allerede.
 * [Pass på fremover og bakoverkompatibilitet](https://developer.apple.com/library/mac/documentation/cocoa/conceptual/Archiving/Articles/compatibility.html)
 
 ---
 
-# Klasse som implementerer NSCoding
+# Klasse som implementerer Coding
 
 ```swift
 
-class Workout : NSObject, NSCoding {
+class Workout : NSObject, Coding {
     var name: String!
     var entries: Int = 0
 
@@ -156,9 +155,9 @@ class Workout : NSObject, NSCoding {
 # Eksempel serialisering og deserialisering
 
 ```swift
-let fm = NSFileManager.defaultManager()
 
-let libDir = fm.URLsForDirectory(.LibraryDirectory, inDomains: .UserDomainMask)[0] as NSURL
+let libDir = FileManager.default.urls(for: .libraryDirectory,
+                                   in: .userDomainMask)[0]
 print(libDir)
 
 let workout = Workout()
