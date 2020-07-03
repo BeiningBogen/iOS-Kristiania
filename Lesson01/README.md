@@ -5,7 +5,7 @@
 
 ---
 
-## Haze Soboh
+## Benjamin Breiby
 ## Håkon Bogen
 
 ### Beining & Bogen ###
@@ -62,6 +62,7 @@ https://github.com/BeiningBogen/iOS-Kristiania
 * iOS 4 - 2010
 ...
 * iOS 13 - 2019
+* iOS 14 - Fall 2020
 
 ---
 
@@ -77,8 +78,8 @@ https://github.com/BeiningBogen/iOS-Kristiania
 
 # Xcode 10
 
-* Xcode 10 : https://developer.apple.com/support/xcode/
-* Xcode 11 : Coming in September
+* Xcode 11 : https://developer.apple.com/support/xcode/
+* Xcode 12 : Coming in September
 
 ## DEMO
 
@@ -98,7 +99,7 @@ https://github.com/BeiningBogen/iOS-Kristiania
 
 # What is Swift?
 * A programming language created by Apple to replace Objective C (used mainly for iOS and OS X)
-* It's open source, and it's increasingly being used on servers and other platforms
+* It's open source, and seeing increasing use on servers and other platforms
 * Modern and powerful - inspired by Python, Ruby, C#
 
 ---
@@ -136,9 +137,9 @@ numberOfemployees = 500
 ```
 
 ^ Constants are declared with `let` and variables with `var`
-In Swift, it is preferable to use constant and imutable values, unless something is changing
-By default declare a constant, then chance it to a variable if it needs to change.
-This will, among other things, make it easier in multi-threading and easier for the compiler.
+It is preferable to use constants and immutable values, unless one has a specific reason as to why the value should be mutable.
+By default declare a constant, then change it to a variable if needed.
+This will, among other things, make it easier in multi-threading and easier for the compiler. It will also make it easier for other developers to follow the code.
 
 ---
 
@@ -151,12 +152,12 @@ numberOfemployees = 500
 let schoolName = "Høyskolen Kristiania"
 ```
 
-^Type inference is ia big feature in Swift. You don't always have to declare the type explicitally
+^Type inference is a big feature in Swift. You don't always have to declare the type explicitly.
 
-^But if you set the type, the explicit type overwrite the actual type.
+^But if you set the type, the explicit type overwrites the actual type.
 For example, if you explicitally set a `Float` for a `Double`.
 
-^Values will never automatically change type, so if you want to add is string and int, then you must explicitly convert one of them.
+^Values will never automatically change type, so if you want to add a String and an Int, you must explicitly convert one of them.
 
 ---
 
@@ -165,7 +166,7 @@ For example, if you explicitally set a `Float` for a `Double`.
 ```swift
 let subject = "iOS programmering"
 
-if(subject == "iOS programmering") {
+if "iOS programmering" == subject {
     print("I ❤️ " + subject)
 }
 ```
@@ -181,6 +182,7 @@ Oh yeah! You can use emojis as variables 😛
 let 🚀 = "falcon 9 rocket"
 
 ```
+...but you really shouldn't.
 
 ---
 
@@ -193,7 +195,7 @@ let mathString = "\(n1) * \(n2) is \(n1 * n2)"
 // "10 * 8 is 80"
 
 let 🚀 = "Falcon 9"
-print("\(🚀) has just launched")
+print("\(🚀) has just launched") // Falcon 9 has just launched
 print("\(🚀.count)")   //  8
 
 ```
@@ -203,11 +205,11 @@ print("\(🚀.count)")   //  8
 # Numbers
 
 ```swift
-let integer = 30 // Int
-let integer2 : Int = 25
-let decimal = 30.45
-let decimal2 : Float = 30.456 // 32 bit precision
-let decimal3 : Double = 30.456 // 64 bit precision
+let integer = 42 // Int
+let integer2: Int = 24
+let decimal = 13.37
+let decimal2: Float = 30.456 // 32 bit precision
+let decimal3: Double = 30.456 // 64 bit precision
 // Double is the default inferred type
 ```
 
@@ -220,11 +222,12 @@ Group multiple values into one value. Well suited for functions that return mult
 ```swift
 let (x, y) = (50, 300)
 
-let error = (401, "Unauthorised")
+let error = (401, "Unauthorized")
 print(error.0) // 401
-print(error.1) // Unauthorised
+print(error.1) // Unauthorized
 
-let (statusCode, message) = error
+// Decomposing the tuple
+let (statusCode, message) = error 
 print(statusCode) // 401
 ```
 
@@ -252,14 +255,14 @@ var userInput: String? = getInputValue()
 if userInput == nil {
     print("Du må skrive navnet ditt 😡😡")
 } else {
-    // Upwrap with `!`
+    // Force unwrap with `!`
     let name = userInput!
     print(name)
 }
 ```
 
 ^It's okay to know that types that aren't optional can't be nil.
-Then you get compile error
+Then you get compile error. Be careful with
 
 ---
 # Optionals (cont'd)
@@ -276,10 +279,14 @@ Then you get compile error
 ```swift
 
 if let userInput = getInputValue() {
-        print(userInput)
+   print(userInput)
 } else {
    // Handle a nil value
 }
+
+// You can provide a default value with `??`
+let userInput = getInputValue() ?? "N/A"
+print(userInput)
 ```
 
 ^Automatically unwrapping and putting the value in an if
@@ -306,6 +313,29 @@ for n in 1..<10 { // 1 through and including 9
 
 ---
 
+# Ranges (cont'd)
+
+```swift
+for n in stride(from: 1, to: 10, by: 2) {
+    print("\(n) * 2 is \(n * 2)")
+}
+
+for n in stride(from: 1, through: 10, by: 2) {
+    print("\(n) * 2 is \(n * 2)")
+}
+
+// Alternatively, since stride returns a `Sequence`
+stride(from: 1, to: 10, by: 2).forEach { n in
+    print("\(n) * 2 is \(n * 2)")
+}
+
+```
+
+^If one wants to specify the steps one can use `stride`
+
+
+---
+
 # Collection types
 
 There are three types of primary collections in Swift
@@ -323,13 +353,15 @@ There are three types of primary collections in Swift
 
 # Array
 
+##### Ordered collections of values
+
 ```swift
 // Declaration
 let jobs = [String]()
 
 let jobs = Array<String>()
 
-// Note that no type was  specified
+// Note that no type was specified
 var jobs = ["iOS Developer", "Project manager", "Frontend Developer"]
 
 // Retrieval
@@ -361,6 +393,8 @@ jobs[2..<5] = ["Adviser", "Backend Developer", "Project Manager"]
 
 # Dictionary
 
+##### Unordered collections of key-value associations
+
 ```swift
 // Declaration
 let emptyDictionary = [String: Float]()
@@ -384,13 +418,13 @@ people["Project Manager"] = 81
 
 # Set
 
-##### Only for unsorted, unique elements
+##### Unordered collections of unique values
 
 ```swift
 
 var people = Set(["Elon Musk", "Neil DeGrasse Tyson", "Bill Nye"])
 
-people.remove("Elon Musk")   // Returns nill if the element is not found
+people.remove("Elon Musk")   // Returns nil if the element is not found
 
 people.insert("Carl Sagan")  
 
@@ -405,8 +439,8 @@ people.insert("Carl Sagan")
 There are 3 types in Swift
 
 * While
-* do-while
-* for-in
+* Repeat-while
+* For-in
 
 Do you know the difference?
 
@@ -425,7 +459,7 @@ Do you know the difference?
 
 # If
 
-* Nothing special about if statements in Swift. Keep in mind that parenthasis are optional
+* Nothing special about if statements in Swift. Keep in mind that parenthesis are optional
 
 ```swift
 if age <= 10 {
@@ -443,7 +477,7 @@ if age <= 10 {
 
 Here, Apple has gone completey bananas!!!
 
-* You don't need to use a break after every case
+* No implicit fallthrough. In other words, you don't need to use a break after every case!
 * You can use any object in a Switch
 * If you omit the default case, you have to implement every possibility. Otherwise... Yup, you guessed it. COMPILE ERROR!
 
@@ -455,7 +489,7 @@ Here, Apple has gone completey bananas!!!
 switch age {
 case 1,2,3,4,5,6,7,8,9,10:
     println("👶🏻")
-case 80...100:
+case 80...100: 		// You can match an interval!
     println("👴🏽")
 default:
     println("💃🕺🏻?")
@@ -519,7 +553,7 @@ _xcode-select -s /Applications/Xcode.app/Contents/Developer_
 ---
 
 ## Reading material
-* 3-11 in TSPL (The Swift Programing Language)
+* 3-11 in TSPL (The Swift Programming Language)
 
 ---
 
