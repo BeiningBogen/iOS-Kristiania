@@ -33,7 +33,7 @@ Slack is good! [PG56000.slack.com](PG56000.slack.com)
 * Guard
 * Type casting & Nested types
 * Protocols
-* Extentions
+* Extensions
 * Generics
 
 ---
@@ -63,18 +63,18 @@ ___
 
 # Subscripts (Cont'd)
 
-* As calculated properties, they can be read-write or read only
+* As computed properties, they can be read-write or read only
 
 ```swift
 
 class ExampleSubscript {
     subscript(<parameters>) -> <returnType> {
-        // Getter is manditory
+        // Getter is mandatory
         get {
             <statements>
         }
         // Setter is optional
-        set(<setterName>) {
+        set {
             <statements>
         }
     }
@@ -86,7 +86,7 @@ class ExampleSubscript {
 
 # Subscript overloading
 
-* Define as many subscript as you want
+* Define as many subscripts as you want
 * Swift is smart at guessing which to use (based on type)
 
 ```swift
@@ -111,8 +111,8 @@ class ExampleSubscript {
 
 # Constructors
 
-* Requires the use of named parameters
-* Same as methods, they are bypassed using `_`, but it is not recommended
+* Called Initializers in the Swift world
+* Written with the `init` keyword
 * Properties can be set in the constructor
 
 ```swift
@@ -133,7 +133,7 @@ var aThing = LivingThing(birth: Date())
 
 # Constructors (Cont'd)
 
-* Optionals and values with default value must not be set in the constructor
+* Optionals and values with default value do not need to be set in the constructor
 
 ```swift
 
@@ -155,7 +155,7 @@ var livingThing = LivingThing(birth: NSDate())
 # Constructors (Cont'd)
 
 * You can have several constructors and they can call each other
-* There are two different types of constructor:
+* There are two different types of constructors...
 
 ---
 
@@ -404,17 +404,19 @@ for item in living {
 # Any & AnyObject (Cont'd)
 
 ```swift
-
-// Cocoa-APIs & array can contain Any
-
 let someObjects: [AnyObject] = [
     Person(birth: NSDate()),
     Person(birth: NSDate()),
-    Person(birth: NSDate())
+    Dog(birth: NSDate())
 ]
 
-for person in someObjects as [Person] {
-    print("Is alive: \(person.isAlive)")
+for object in someObjects {
+    switch object {
+    case let person as Person:
+        print("Is alive: \(person.isAlive)")
+    default:
+        print("Not a person.")
+    }
 }
 
 ```
@@ -512,10 +514,10 @@ func generateRocketSchematics(rocketDictionary : [String : String]?) {
 
 ---
 
-# Extentions
+# Extensions
 
 * Extend functionality for a specific type
-* Normal and static calculated properties
+* Normal and static computed properties
 * Define new instance methods and class methods
 * New init methods
 * New subscripts
@@ -524,7 +526,7 @@ func generateRocketSchematics(rocketDictionary : [String : String]?) {
 
 ---
 
-# Extentions (Cont'd)
+# Extensions (Cont'd)
 
 ```swift
 
@@ -541,7 +543,7 @@ name.uppercase // "JOHN DOE"
 
 # Protocols
 
-* Same as interface in Java and other languages
+* Similar to an interface in Java and other languages
 * Defines a set of methods, properties, class methods, operators, and subscripts that fit a particular functionality
 * Contains no implementation code
 
@@ -556,7 +558,7 @@ protocol LivingThing {
   var doesNotNeedToBeSettable: Int { get }
 
 
-  class func someTypeMethod()
+  static func someTypeMethod()
   func random() -> Double
   mutating func toggle() // Makes it possible to change properties
 }
@@ -573,10 +575,32 @@ protocol LivingThing {
 
 ---
 
+# Protocols (Cont'd)
+
+- We can make a type conform to our protocol with an extension
+
+```swift
+struct Newbie {
+}
+
+protocol ValorantPlayer {
+    func chat() -> String
+}
+
+extension Newbie: ValorantPlayer {
+    func chat() -> String {
+        return "rAzE iS oP!"
+    }
+}
+
+```
+
+---
+
 # Protocol extensions
 
-- You can create implementation code for methods
-- Apple introduced Protocol oriented development
+- We can create default implementations for methods
+- Apple encourages Protocol oriented development
 
 ```swift
 extension LivingThing {
@@ -591,8 +615,9 @@ extension LivingThing {
 
 # Generics
 
-* Many of Swift's standard library is built with generic code
-* For example: Array and Dicionary are of the generic collections type
+* A lot of Swift's standard library is built with generic code
+* Allows writing flexible code that can be used with different types
+* For example: Array and Dictionary are of the generic collections type
 
 ---
 
