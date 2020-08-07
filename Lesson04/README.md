@@ -107,7 +107,7 @@ Search for "Icon and Image Sizes" in the documentation for an overview of sizes 
 # UIApplication
 
 * Each app has exactly one (singleton), which is created by UIApplicationMain
-* Accessed by calling `UIApplication.sharedApplication()`
+* Accessible with `UIApplication.shared`
 * Handles event loop and high-level functionality
 * Informs about state transitions and events via the app delegate, which is the place you have the opportunity
 to handle these
@@ -132,7 +132,7 @@ to handle these
 
 # View Controllers
 
-Manages a view and its subview, coordinates events and communication between models and views
+Manages a view and its subviews, coordinates events and communication between models and views
 
 ![inline](resources/view-controllers.png)
 
@@ -183,10 +183,10 @@ More info [1](https://developer.apple.com/library/prerelease/ios/documentation/S
 
 ![left](resources/states.png)
 
-* __Inactive__: In the foreground, but does not receive events (e.g. on an incoming calls)
-* __Active__: Normal state. In the foreground and receive events
+* __Inactive__: In the foreground, but does not receive events (e.g. on an incoming call)
+* __Active__: Normal state. In the foreground and receives events
 * __Background__: Ability to run some background operations (e.g. audio) / When launching in background (e.g. background fetch, push)
-* __Suspended__: In memory, however, no code runs
+* __Suspended__: In memory, but no code runs
 
 ---
 
@@ -239,7 +239,7 @@ Photo: The Big Nerd Ranch Guide, Chapter 1
 # View Controllers (Cont'd)
 
 * View Controllers will typically only know part of the application and will therefore communicate with other view controllers
-* Views send messages to thier VC. For example, when you press a UIButton it can send a message to its VC, which defines what should happen
+* Views send messages to their VC. For example, when you press a UIButton it can send a message to its VC, which defines what should happen
 
 ---
 
@@ -563,7 +563,6 @@ class ViewController: UIViewController {
 # Further reading
 
 -  Stanford iOS Development Lecture 2
--  https://itunes.apple.com/us/course/developing-ios-8-apps-swift/id961180099
--  The basics of iOS 8 programming in Swift
+-  https://developer.apple.com/library/archive/referencelibrary/GettingStarted/DevelopiOSAppsSwift/index.html
 
 ---
