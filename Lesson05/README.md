@@ -29,7 +29,7 @@
 # Delegate pattern
 
 * Design pattern to get an object to delegate parts of its tasks to another object
-* The delegate object holds a reference to another object called the delegate
+* The delegating object holds a reference to another object called the delegate
 * The delegating object calls one or more methods on the delegate
 * Delegate patterns are widely used in Cocoa Touch
 
@@ -93,7 +93,7 @@ class Fetcher {
 
 # Delegate pattern (Cont'd)
 
-Delegate-pattern by a lot of classes, some of the well known ones are:
+Delegate-pattern is used by a lot of classes, some of the well known ones are:
 
 - UINavigationController
 - UITableView
@@ -105,8 +105,8 @@ Delegate-pattern by a lot of classes, some of the well known ones are:
 
 
 * One of the standard components
-* Keeps on a collection of UIViewController's
-* A UINavigationController coordinates navigation between UIViewController
+* Keeps a collection of UIViewController's
+* A UINavigationController coordinates navigation between UIViewController's
 * In addition to navigation, it is also responsible for a UINavigationBar and a UIToolbar
 
 ---
@@ -114,7 +114,7 @@ Delegate-pattern by a lot of classes, some of the well known ones are:
 # UINavigationController (Cont'd)
 
 Note that:
-- A UINavigationController keeps a collections of UIViewController
+- A UINavigationController keeps a collection of UIViewController's
 - A UIViewController (not UINavigationController) keeps a collection of views
 
 ---
@@ -149,8 +149,8 @@ Can I do it in code?
 ```swift
     # Presents a modal
     let rootViewController = UIViewController()
-    var aNavigationController = UINavigationController(rootViewController: rootViewController)
-    presentViewController(aNavigationController animated:true, completion: nil)
+    var navigationController = UINavigationController(rootViewController: rootViewController)
+    present(navigationController, animated: true, completion: nil)
 ```
 
 ---
@@ -160,7 +160,7 @@ Can I do it in code?
 ```swift
 var viewController = UIViewController()
 navController.pushViewController(viewController, animated: true)
-navController.popViewControllerAnimated(true)
+navController.popViewController(animated: true)
 ```
 
 ---
@@ -173,7 +173,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
 
         var rightButton = UIBarButtonItem(
-          barButtonSystemItem: UIBarButtonSystemItem.Add,
+          barButtonSystemItem: .add,
           target: self,
           action: #selector(buttonTouched:)
         )
@@ -236,11 +236,11 @@ Some uses include:
 
 * Each row consists of a UITableViewCell
 * Comes with some pre-defined designs (can make custom designs too)
-* Can respond to clicking on a cell
+* Can respond to tapping on a cell
 * Has implemented editing capabilities:
  * Add
  * Remove
- * Reorganise
+ * Reorganize
 
 ---
 
@@ -251,8 +251,8 @@ Some uses include:
 # But how to put data before navigating? From the previous view controller!
 
 ```swift
-// remmeber this?
-destinationViewController as? ReceivingViewController {
+// remember this?
+if let vc = destinationViewController as? ReceivingViewController {
     vc.message = message.text
 }
 ```
@@ -261,7 +261,6 @@ destinationViewController as? ReceivingViewController {
 
 # UICollectionView
 
----
 
 * Is a more flexible alternative to UITableView
 * Changes are made using subclassing
@@ -306,7 +305,7 @@ This is typicaly views at the top and bottom (header and footer)
 
 4: Decoration View
 
-views that add no functionality, but are intended to make the collection view visually more beautiful
+Views that add no functionality, but are intended to make the collection view visually more beautiful
 
 ---
 
@@ -356,13 +355,13 @@ Apple has created a custom layout that comes with collection views
 
 ---
 
-# Programatically
+# Programmatically
 
 ```swift
 // Visual Format Language
 let views = ["button1": UIButton(), "button2": UIButton()]
-var constraints = NSLayoutConstraint.constraintsWithVisualFormat(
-  "[button1]-[button2]",
+var constraints = NSLayoutConstraint.constraints(
+  withVisualFormat: "[button1]-[button2]",
   options: NSLayoutFormatOptions.AlignAllBaseline,
   metrics: nil,
   views: views
