@@ -30,7 +30,7 @@ Vi ser på dette gjennom hele forelesningen
 
 
 * Custom Views og MVC
-* Protokoller og protcol extension
+* Protokoller og protocol extension
 * Tips til å skrive tester
 * Skrive tester for Persistering
 * Skrive tester for JSON-parsing
@@ -129,9 +129,9 @@ public protocol UITableViewDataSource : NSObjectProtocol {
 
 class StudentSummaryViewDataSourceController : StudentSummaryViewDataSource {
 
-    @objc func numberOfStudentsInStudentSummaryView(studentSummaryView: StudentSummaryView) -> Int {
-		// TODO: tell opp antall studenter i databasen
-        return 0  
+    @objc func numberOfStudents(studentSummaryView: StudentSummaryView) -> Int {
+        // TODO: tell opp antall studenter i databasen
+        return 0
     }
 }
 
@@ -143,7 +143,7 @@ class StudentSummaryViewDataSourceController : StudentSummaryViewDataSource {
 ### Vi må hente alle Student-objekter i databasen og telle disse
 
 ---
-# Protcol
+# Protocol
 
 
  ```swift
@@ -238,7 +238,7 @@ Husk å slette databasen mellom hver test!
 
 
         for student in stud {
-            managedObjectContext.deleteObject(student)
+            managedObjectContext.delete(student)
         }
 
     }
@@ -353,7 +353,7 @@ func testCreateStudentFromJSON () {
 
 #Oppsummering
 
-- Vi har automatiserte tester for   alle steder i appen vår hvor brukeren kan få vist data
+- Vi har automatiserte tester for alle steder i appen vår hvor brukeren kan få vist data
 - Vi har spart oss fremtidig tid ved å skrive en protocol extension med default implementation
 - Vi har har tester på at APIet vi har fått beskrevet gjør at appen vil oppføre som vi forventer
 
