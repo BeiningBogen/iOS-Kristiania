@@ -11,7 +11,7 @@
 * Custom views
 * Events
 * Gestures
-* Animaions
+* Animations
 
 ---
 
@@ -21,10 +21,10 @@
 * Testing
 * Swift and code reuse
   * Framework
-  * Cocoapods & Carthage
+  * Cocoapods, Carthage, and SPM
 * Threads and asyncronicity
-* web requests
-* try & json
+* Web requests
+* Try & json
 
 
 ---
@@ -32,7 +32,7 @@
 # Debugging
 
 * Breakpoints
-* Loggin
+* Logging
 * Unit tests
 * Assertions (or force unwraps)
 
@@ -132,23 +132,23 @@ class FontSorterTests: XCTestCase {
 # XCode test assertions
 
 ```swift
-XCTAssert(expression, format...) // hvis expression = true, så er testen ok
+XCTAssert(expression, format...) // if expression = true, test is OK
 
-XCTAssertTrue(expression, format...) // lik som den over
+XCTAssertTrue(expression, format...) // same as above
 
-XCTAssertFalse(expression, format...) // hvis false så er testen ok
+XCTAssertFalse(expression, format...) // if false, test is OK
 
-XCTAssertEqual(expression1, expression2, format...) // lik så er testen ok
+XCTAssertEqual(expression1, expression2, format...) // if equal, test is OK
 
-XCTAssertNotEqual(expression1, expression2, format...) // ulike så er testen ok
+XCTAssertNotEqual(expression1, expression2, format...) // if not equal, test is OK
 
-XCTAssertEqualWithAccuracy(expression1, expression2, accuracy, format...) // kan brukes på nummer som ikke må vœre helt lik
+XCTAssertEqualWithAccuracy(expression1, expression2, accuracy, format...) // for numbers that don't have to be 100% alike
 
-XCTAssertNotEqualWithAccuracy(expression1, expression2, accuracy, format...) // kan brukes på nummer som ikke må vœre helt lik
+XCTAssertNotEqualWithAccuracy(expression1, expression2, accuracy, format...) // for numbers that don't have to be 100% alike
 
-CTAssertNil(expression, format...) // teste optionals
+CTAssertNil(expression, format...) // test optionals
 
-XCTAssertNotNil(expression, format...) // teste optionals
+XCTAssertNotNil(expression, format...) // test optionals
 ```
 
 ---
@@ -158,20 +158,20 @@ XCTAssertNotNil(expression, format...) // teste optionals
 ```swift
 func testAsynchronousURLConnection() {
 
-    let URL = "http://mobile-course.herokuapp.com/message"
+    let url = "http://mobile-course.herokuapp.com/message"
     let expectation = expectationWithDescription("GET \(URL)")
 
-    let session = NSURLSession.sharedSession()
-    let task = session.dataTaskWithURL(NSURL(string: URL), completionHandler: {(data, response, error) in
+    let session = URLSession.shared
+    let task = session.dataTask(with: URL(string: url)!, completionHandler: {(data, response, error) in
         expectation.fulfill()
 
         XCTAssertNotNil(data, "data should not be nil")
         XCTAssertNil(error, "error should be nil")
 
-        if let HTTPResponse = response as? NSHTTPURLResponse {
-            XCTAssertEqual(HTTPResponse.URL!.absoluteString!, URL, "HTTP response URL should be equal to original URL")
+        if let HTTPResponse = response as? HTTPURLResponse {
+            XCTAssertEqual(HTTPResponse.url?.absoluteString, url, "HTTP response URL should be equal to original URL")
             XCTAssertEqual(HTTPResponse.statusCode, 200, "HTTP response status code should be 200")
-            XCTAssertEqual(HTTPResponse.MIMEType as String!, "application/json", "HTTP response content type should be text/html")
+            XCTAssertEqual(HTTPResponse.mimeType as String?, "application/json", "HTTP response content type should be text/html")
         } else {
             XCTFail("Response was not NSHTTPURLResponse")
         }
@@ -193,7 +193,7 @@ func testAsynchronousURLConnection() {
 ```swift
 
 func testPerformanceExample() {
-    // Tester performance med self.measureBlock
+    // Testing performance with self.measureBlock
     self.measureBlock() {
         // Time the stuff here
     }
@@ -295,8 +295,8 @@ Debug small functions or views
 - Creates the threads for you
 - Based on queues of tasks
 - Two types of tasks
-  1. Serial - En oppgave av gangen
-  2. Concurrent - Kan utføre flere oppgaver samtidig
+  1. Serial - One task at a time
+  2. Concurrent - Can perform several tasks
 
 ```swift
  DispatchQueue.init(label: "another thread").async {
@@ -312,15 +312,15 @@ Debug small functions or views
 ```
 
 ---
-# NSTread
+# NSThread
 
 * Not widely used
 
 ```swift
 // Lag en ny tråd
-NSThread.detachNewThreadSelector("someMethod", toTarget: self, withObject: nil)
+Thread.detachNewThreadSelector("someMethod", toTarget: self, withObject: nil)
 
-var thread = NSThread(target: self, selector: "testMethod", object: nil)
+var thread = Thread(target: self, selector: "testMethod", object: nil)
 thread.start()
 thread.cancel()
 ```
@@ -337,11 +337,11 @@ NSInvocationOperation - Runs a function in a thread
 
 ---
 
-# Starting a NSOperation
+# Starting an NSOperation
 
 ```swift
 
-var operation = NSOperation()
+var operation = Operation()
 operation.start()
 
 operation.cancel()
@@ -371,10 +371,10 @@ operation.cancel()
 
 ```swift
 
-let backgroundOperation = NSOperation()
-backgroundOperation.qualityOfService = .Background
+let backgroundOperation = Operation()
+backgroundOperation.qualityOfService = .background
 
-let operationQueue = NSOperationQueue()
+let operationQueue = OperationQueue()
 operationQueue.addOperation(backgroundOperation)
 
 ```
@@ -384,8 +384,8 @@ operationQueue.addOperation(backgroundOperation)
 # NSThread vs GCD vs NSOperationQueue
 
 - GCD for easy use, day to day usage
-- NSTread if you need full control
-- NSOperationQueue if you need to set queues with maxs tasks, specific ordering etc
+- NSThread if you need full control
+- NSOperationQueue if you need to set queues with max tasks, specific ordering etc.
 
 ---
 
@@ -409,9 +409,9 @@ DELETE - Delete data
 ---
 
 ```swift
-let url = NSURL(string: "http://ip.jsontest.com")
-let session = NSURLSession.sharedSession()
-let task = session.dataTaskWithURL(url, completionHandler: { (data, response, error) -> Void in
+let url = URL(string: "http://ip.jsontest.com")!
+let session = URLSession.shared
+let task = session.dataTask(with: url, completionHandler: { (data, response, error) -> Void in
     print(data)
 })
 
@@ -420,11 +420,11 @@ task.resume()
 ```
 
 ```swift
-let url2 = NSURL(string: "http://mobile-course.herokuapp.com/message")
-let request = NSMutableURLRequest(URL: url2)
-request.HTTPMethod = "POST"
-let session2 = NSURLSession.sharedSession()
-let task2 = session.dataTaskWithRequest(request, completionHandler: { (data, response, error) -> Void in
+let url2 = URL(string: "http://mobile-course.herokuapp.com/message")!
+var request2 = URLRequest(url: url2)
+request2.httpMethod = "POST"
+let session2 = URLSession.shared
+let task2 = session2.dataTask(with: request2, completionHandler: { (data, response, error) -> Void in
     print(data)
 })
 
@@ -500,7 +500,7 @@ Alamofire.request(.GET,  "http://jsonplaceholder.typicode.com/posts")
 
 ```swift
 
-    enum LoginError: ErrorType {
+    enum LoginError: Error {
         case NoUserName
         case WrongPassword
     }
@@ -547,17 +547,18 @@ try! login()
 ```swift
 func titlesFromJSON(data: NSData) -> [String] {
     var titles = [String]()
-
- do {
-    let jsonDictionary = try NSJSONSerialization.JSONObjectWithData(data, options: nil, error: &jsonError) as? [String : AnyObject] {
-        guard let feed = jsonDictionary["feed"] as? [String : AnyObject] else {
-            // throw ?
+    
+    do {
+        let jsonDictionary = try JSONSerialization.JSONObjectWithData(data, options: nil, error: &jsonError) as? [String : AnyObject] {
+            guard let feed = jsonDictionary["feed"] as? [String : AnyObject] else {
+                // throw ?
+            }
+            
         }
-
     } catch let error as NSError {
         // Do something with error
     }
-
+    
     return titles
 }
 ```
@@ -584,7 +585,7 @@ struct Movie {
   }
 }
 
-let jsonDict  = NSJSONSerialization.JSONObjectWithData(data,
+let jsonDict  = JSONSerialization.JSONObjectWithData(data,
   options: NSJSONReadingOptions.MutableContainers, error: nil) as? [String : Any]
 
 Movie(attributes: jsonDict)
@@ -597,7 +598,7 @@ Movie(attributes: jsonDict)
 #Swift 4
 
 ```Swift
-struct Movie : Decodable{
+struct Movie : Decodable {
     let name: String
     let genre: String?
     let year : Int
@@ -609,7 +610,6 @@ struct Movie : Decodable{
         case year
         case rating
     }
-
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: Keys.self)
