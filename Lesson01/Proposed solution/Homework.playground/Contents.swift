@@ -14,6 +14,9 @@ import UIKit
 
 */
 
+// let value = "Swift is cool!"
+var value = "Swift is cool!"
+value = "We cannot reassign a value defined with let."
 
 /*:
 ## Task #2
@@ -21,6 +24,12 @@ import UIKit
 Create a constant with an explicit String type and the value "iOS FTW" - Then remove the type. Why is this possible?
 
 */
+
+let explicit: String = "iOS FTW"
+let implicit = "iOS FTW"
+
+// This is possible because of type inference.
+// Swift knows the type of the constant based on the value we assigned to it.
 
 
 /*:
@@ -31,6 +40,10 @@ Create a constant with an explicit String type and the value "iOS FTW" - Then re
 
 */
 
+let numeric = 42
+let string = "The Answer:"
+let combined = string + " " + String(numeric)
+let interpolated = "\(string) \(numeric)"
 
 /*:
  ## Task #4
@@ -38,6 +51,9 @@ Create a constant with an explicit String type and the value "iOS FTW" - Then re
 Create an expression with string interpolation where you calculate the sum of 5 * 120 as part of the interpolation, print it using print()
 
 */
+
+let expression = "5 * 120 = \(5 * 120)"
+print(expression)
 
 
 /*:
@@ -47,6 +63,11 @@ Compare two strings and print "they are equal", if they are exactly the same, or
 
 */
 
+let a = "String a"
+let b = "String b"
+
+print(a == b ? "They are equal" : "They are different")
+
 
 /*:
  ## Task #6
@@ -55,6 +76,8 @@ Create a tuple with the content (5600, “iOS programming”). Then use print to
  
 */
 
+let tuple = (code: 5600, name: "iOS programming")
+print(tuple.name)
 
 
 /*:
@@ -83,6 +106,22 @@ Expected result
 //:    o
 //:    n
 
+let array = ["Falcon 9", "Dragon"]
+
+for word in array {
+    print(word)
+}
+
+for word in array {
+    for letter in word {
+        print(letter)
+    }
+}
+
+// Bonus functional solution
+array.forEach { print($0) }
+array.forEach { $0.forEach { print($0) } }
+
 /*:
  ## Task #8
 
@@ -90,19 +129,33 @@ Create a dictionary with 5 key-value pairs, loop over it and print key and value
 
 */
 
+let dictionary = ["Swift" : "Awesome",
+                  "Kotlin" : "Also cool",
+                  "Java" : "Not so much",
+                  "PHP" : "😭",
+                  "Hotel" : "Trivago"]
 
+for pair in dictionary {
+    print("\(pair.key)? \(pair.value).")
+}
+
+// NOTE: Dictionaries are _unordered_, which kind of ruins the meme in this case. 🤷
+
+// Bonus functional solution
+dictionary.forEach { print("\($0.key)? \($0.value).") }
 
 /*:
- ## Task #9
- 
- Create a new iOS project in "Single View Application" Xcode.
- 1. Find the view controller that was created automatically
- 2. Define strict constants for title, message and button.
- 3. Create a UIAlertController that uses the constants you have defined.
- 4. Override `viewDidAppear` and in the function body call the method `present` with the alert controller as an argument
- 5. Run the simulator and verify that the text string appears.
- */
+## Task #9
 
+Create a new iOS project in "Single View Application" Xcode.
+1. Find the view controller that was created automatically
+2. Define strict constants for title, message and button.
+3. Create a UIAlertController that uses the constants you have defined.
+4. Override `viewDidAppear` and in the function body call the method `present` with the alert controller as an argument
+5. Run the simulator and verify that the text string appears.
+*/
+
+// See "Task 9" folder.
 
 //:## Task #10
 
@@ -116,19 +169,22 @@ let numberOfLaunches = [19, 55, 135, 1]
 //:    ...
 //:    My water bottle-rocket : 1 launch        // note that that there the missing plural "s" when there is only 1 launch
 
+let rocketsFiltered = rockets.compactMap { $0 as? String }
+let rocketLaunches = Dictionary(uniqueKeysWithValues: zip(rocketsFiltered, numberOfLaunches))
+rocketLaunches.forEach {
+    print("\($0.key): \($0.value) \($0.value > 1 ? "launches" : "launch")")
+}
 
 //:## Task #11
 
 //: complete the following functions to return the expected result
 
 func parseLanguages(languages: String) -> [String] {
-    // Write your code here
-    return []
+    return languages.components(separatedBy: ", ")
 }
 
 func sortLanguages(languages: [String]) -> [String] {
-    // Write your code here
-    return []
+    return languages.sorted()
 }
 
 let languages = "Swift, Java, Objective-C, Python"
