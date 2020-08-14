@@ -46,9 +46,9 @@
 # Frame vs bounds
 
 * Normally it's bounds when implementing view (inside-out)
-  * **bounds**: size in own coordinate system
+  * **bounds**: size and position in own coordinate system
 * Normally it's a frame when using a view (outside-in)
-  * **frame**: size and position in superview
+  * **frame**: size and position in superview's coordinate system
   * **center**: Center position relative to it's superview
 * Updating frame / bounds / center will update values in each other
 
@@ -93,7 +93,7 @@ label.transform = scale.concatenating(rotate)
 
 ```swift
 // When the view loads: (evt. viewDidLoad:)
-let label = UILabel(frame: CGRectMake(0, 0, view.frame.width, 20))
+let label = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 20))
 label.text = "Hello world"
 view.addSubview(label)
 
@@ -200,10 +200,10 @@ Responder chain
 # Some ways to handle events
 
 * On your own in UIView / UIViewController:
-  * `touchesBegan:withEvent:`
-  * `touchesMoved:withEvent:`
-  * `touchesEnded:withEvent:`
-* Create view as subclasses UIControl
+  * `touchesBegan:with:`
+  * `touchesMoved:with:`
+  * `touchesEnded:with:`
+* Create view as subclass of UIControl
 * Add gesture recognizers to views
 
 ---
@@ -243,12 +243,13 @@ class StarView: UIControl {
 ```swift
 // Inherit from UIControl:
 func addTarget(target: AnyObject?, action: Selector,
-  forControlEvents controlEvents: UIControlEvents)
+               forControlEvents controlEvents: UIControl.Event) {}
+               
 // ... and if you want to trigger something custom from your component:
-func sendActionsForControlEvents(controlEvents: UIControlEvents)
+func sendActionsForControlEvents(controlEvents: UIControl.Event) {}
 
 // Which ViewController can listen to with:
-starButton.addTarget(self, action: "tappedStar:", forControlEvents: .TouchUpInside)
+starButton.addTarget(self, action: "tappedStar:", for: .touchUpInside)
 
 func tappedStar(sender: AnyObject) {
   println("Tapped!")
@@ -329,7 +330,7 @@ class StarView: UIControl {
 // In the controller. Draw squares where the user tapped
 @IBAction func tapped(sender: UITapGestureRecognizer) {
     let point = sender.locationInView(self.view)
-    let v = UIView(frame: CGRectMake(0, 0, 20, 20))
+    let v = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
 
     v.center = point
     v.backgroundColor = .redColor()
@@ -354,7 +355,7 @@ class StarView: UIControl {
 // Fade-out animation lasting 1st second:
 UIView.animate(withDuration: 1) {
     self.image.alpha = 0
-})
+}
 ```
 
 ---
@@ -366,7 +367,7 @@ UIView.animate(withDuration: 1) {
 UIView.animate(withDuration: 0.2, delay: 0, options: [.beginFromCurrentState, .curveEaseIn], animations: {
     self.image.alpha = 0
 }) { finished in
-    UIView.animateWithDuration(1) {
+    UIView.animate(withDuration: 1) {
         self.image.alpha = 1
     }
 }
@@ -391,7 +392,7 @@ UIView.transition(with: self.view, duration: 1, options: .transitionCrossDissolv
 heightConstraint.constant = 50;    //  @IBoutlet weak var heightConstraint : NSLayoutConstraint!
 
 
-UIView.animateWithDuration(2.0) {
+UIView.animate(withDuration: 2.0) {
      self.view.layoutIfNeeded()
 }
 ```
@@ -411,15 +412,15 @@ UIView.animateWithDuration(2.0) {
 ```swift
 class CustomSegue: UIStoryboardSegue {
   override func perform() {
-    let source = self.sourceViewController as UIViewController
-    let destination = self.destinationViewController as UIViewController
+    let source = self.source as UIViewController
+    let destination = self.destination as UIViewController
 
     // 1. Insert the destination view into the source view
     source.view.addSubview(destination.view)
 
     // 2. set views state for views
 
-    UIView.animateWithDuration(1){
+    UIView.animate(withDuration: 1, animations: {
         // 3. set up the final state for views
         }) { finished in
         // 4. present the destination controller when the animation is complete
@@ -433,20 +434,20 @@ class CustomSegue: UIStoryboardSegue {
 ```swift
 class CustomSegue: UIStoryboardSegue {
   override func perform() {
-    let source = self.sourceViewController as UIViewController
-    let destination = self.destinationViewController as UIViewController
+    let source = self.source as UIViewController
+    let destination = self.destination as UIViewController
 
     source.view.addSubview(destination.view)
 
     destination.view.alpha = 0
-    destination.view.transform = CGAffineTransformMakeScale(0.05, 0.05)
+    destination.view.transform = CGAffineTransform(scaleX: 0.05, y: 0.05)
 
-    UIView.animateWithDuration(1, animations: { () -> Void in
+    UIView.animate(withDuration: 1, animations: { () -> Void in
         destination.view.alpha = 1
-        destination.view.transform = CGAffineTransformMakeScale(1, 1)
-        }) { (finished) -> Void in
+        destination.view.transform = CGAffineTransform(scaleX: 1, y: 1)
+        }) { finished in
         //source.presentViewController(destination, animated: false, completion: nil)
-        source.navigationController!.pushViewController(destination, animated: false)
+        source.navigationController?.pushViewController(destination, animated: false)
     }
   }
 }
