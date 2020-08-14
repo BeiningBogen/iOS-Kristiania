@@ -11,10 +11,6 @@ Everything is on github [https://github.com/BeiningBogen/iOS-Kristiania](https:/
 
 Slack is good! [PG56000.slack.com](PG56000.slack.com)
 
----
-
-# Reminder (cont'd)
-
 [https://stackoverflow.com/help/how-to-ask](https://stackoverflow.com/help/how-to-ask)
 
 ---
@@ -25,8 +21,8 @@ Slack is good! [PG56000.slack.com](PG56000.slack.com)
 * Xcode and Playgrounds
 * Swift
    * Strings
-   * loops
-   * if & switch
+   * Loops
+   * If & switch
    * Optionals
    * Numbers
 
@@ -143,7 +139,19 @@ func greet(name: String, prefix: String = "") {
     print("Hello, \(prefix) \(name)!")
 }
 
-greet(name: "Anderson")  // "Hello, Anderson !" <- notice the empty space after the name
+greet(name: "Anderson")  // "Hello,  Anderson!"
+greet(name: "Anderson", prefix: "Mr") // "Hello, Mr Anderson!"
+```
+
+---
+
+# External and internal parameter names
+
+```swift
+func greet(name n: String, prefix p: String) {
+    print("Hello, \(p) \(n)!")
+}
+
 greet(name: "Anderson", prefix: "Mr") // "Hello, Mr Anderson!"
 ```
 
@@ -152,28 +160,13 @@ greet(name: "Anderson", prefix: "Mr") // "Hello, Mr Anderson!"
 # Omit parameter names
 
 ```swift
-// NB: This is not recommended for readability, but it's good to know.
-// NB: there is an `_` in front of prefix
+// NB: Usually not recommended because of readability.
 
-func greet(name: String, _ prefix: String = "") {
+func greet(_ name: String, _ prefix: String) {
     print("Hello, \(prefix) \(name)!")
 }
 
-greet(name: "Anderson") // "Hello, Anderson !" <- notice the empty space after the name
-greet(name: "Anderson", "Mr") // "Hello, Mr Anderson!"
-```
-
----
-
-# Renaming parameters
-
-```swift
-// NB: name is not optional here, so it must be called
-func greet(prefix p: String, name n: String) {
-    print("Hello, \(p) \(n)!")
-}
-
-greet(prefix: "Mr", name: "Anderson") // "Hello, Mr Anderson!"
+greet("Anderson", "Mr") // "Hello, Mr Anderson!"
 ```
 
 ---
@@ -181,11 +174,11 @@ greet(prefix: "Mr", name: "Anderson") // "Hello, Mr Anderson!"
 # Playground Demo
 
 ---
-# Functions with multiple value parameter (variadic parameter)
+# Multiple value parameter (variadic parameter)
 
 ```swift
 func greet(names: String...) {
-    for name in names {
+    for name in names {    // names is of type [String]
         print("Hello \(name)")
     }
 }
@@ -205,7 +198,7 @@ greet(names: "Agent Smith", "Mr. Anderson")
 ---
 
 
-# Functions that swap parameters, externally
+# Modifying value of input parameters (in-out parameters)
 
 ```swift
 func swapInts(first: inout Int, second: inout Int) {
@@ -219,7 +212,7 @@ var a = 10
 var b = 5
 
 // NB: You have to call with `&` before the parameter
-swapInts(first: &a, second:&b))
+swapInts(first: &a, second: &b)
 // a = 5
 // b = 10
 ```
@@ -229,17 +222,20 @@ swapInts(first: &a, second:&b))
 # Functions that return a function
 
 ```swift
-func createFunction() -> () -> String {
-    func helloWorld() -> String {
-        return "Hello world"
+func createGreetingFunction(coolness: Int) -> (String) -> String {
+    func normalGreeting(_ name: String) -> String {
+        return "Hi, \(name)."
+    }
+    
+    func veryCoolGreeting(_ name: String) -> String {
+        return "Sup, \(name)."
     }
 
-    return helloWorld
+    return coolness > 8 ? veryCoolGreeting : normalGreeting
 }
 
-let fn = createFunction()
-
-print(fn())
+let fn = createGreetingFunction(coolness: -1)
+print(fn("Anderson")) // Hi, Anderson.
 
 ```
 
@@ -307,7 +303,7 @@ public func sorted(by: (Int, Int) -> Bool) -> [Int]
 
 var numbers = [43, 2, 1, 90]
 
-numbers.sorted(by { x, y in
+numbers.sorted(by: { x, y in
     if y > x {
         return true
     } else {
@@ -323,11 +319,14 @@ numbers.sorted(by { x, y in
 
 
 ```swift
-// An shorthand looks like this
+// A shorthand looks like this
 var numbers = [43, 2, 1, 90]
 
-// NB: Single line expressions are implicitly returned
 numbers.sorted(by: { x, y in y > x })  // 1, 2, 43, 90
+
+// Single line expressions are implicitly returned
+// Also note how the type omitted. It is inferred from context.
+
 ```
 
 ---
@@ -340,8 +339,8 @@ let numbers = [1, 2, 3, 4, 5]
 numbers.sort{ $0 < $1 }
 
 /*
-NB: You can drop the brackets, and the parameters if closure is the last argument
-Parameters can be accessible via $1..$n
+We can drop the parentheses and parameters if the closure is the last argument.
+This is called a trailing closure. Parameters are accessible via $0..$n
 */
 ```
 
@@ -359,7 +358,7 @@ enum WashMode { // NB: Enum names start with a capital
 
 var mode = WashMode.unknown
 
-// NB: Since the type is known you don't have to use it to access the value
+// Since the type is known we don't have to use it to access the value
 mode = .cotton
 
 ```
@@ -395,7 +394,6 @@ struct PointOfInterest {
     var name : String
 }
 
-// NB: Structs are initialised in a standard way
 let poi1 = PointOfInterest(latitude: 59.91126, longitude: 10.76046, name: "Kristiania")
 print("\(poi1.name)  - \(poi1.latitude),\(poi1.longitude)")
 
@@ -426,11 +424,14 @@ class Server {
 
     // Constructor
     init(ip: String) {
-        self.ip = ip // `self` is used to refer to the instance, same as `this` in other languages
+        self.ip = ip
     }
 }
 
 let server = Server(ip: "127.0.0.1")
+
+// `self` is used to refer to the instance, same as `this` in some languages.
+// Not to be confused with `Self`, which refers to the type of the instance.
 
 ```
 
@@ -452,25 +453,17 @@ server.boot()
 
 ---
 
-# Methods (cont'd)
-
-What's the difference between a method and a function?
-
-^ Methods are in classes, structs, or enums. Functions are global
-
----
-
 # Properties
 
 * Stored properties (classes, structs)
-* Computed properties (classes, structs, and enums)
+* Computed properties (classes, structs, enums, and extensions)
 
 ---
 
 # Computed properties
 
 ```swift
-class Server {
+class Server {3
     // ...
     // computed properties
     var uptime : Int {
@@ -482,7 +475,7 @@ class Server {
             }
         }
         /* 
-        Also possible to user set:
+        Also possible to implement set. Otherwise read-only.
         set(newValue) {...}
         */
     }
@@ -505,10 +498,13 @@ class Server {
             print("Will register a new IP: \(newIp)")
         }
         didSet {
-            print("Ip \(ip) has been registered ")
+            print("Ip \(ip) has been registered.")
+            print("Old ip was \(oldValue)")
         }
     }
 }
+// If we don't include a parameter in our willSet and didSet implementations,
+// the parameter names default to "newValue" and "oldValue" respectively.
 ```
 ---
 
@@ -518,7 +514,7 @@ Operates at type level (class / struct), without the need for an instance.
 
 ---
 
-# Example of a classes
+# Example of a class
 
 ```swift
 class ClassUtils {
@@ -529,6 +525,7 @@ class ClassUtils {
     }
     class func typeMethod() {}
 }
+
 ClassUtils.typeProperty
 ClassUtils.typeMethod()
 ```
@@ -570,8 +567,8 @@ The short version
 * `private` - restricted to the enclosing declaration
 * `fileprivate` - restricted to the enclosing file
 * `internal` - restricted to the module
-* `public` - Accessible everywhere
-* `open` - Accessible everywhere
+* `public` - Accessible everywhere.
+* `open` - Accessible, subclassable, overridable everywhere
 
 ---
 
