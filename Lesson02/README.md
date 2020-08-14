@@ -23,7 +23,7 @@ Slack is good! [PG56000.slack.com](PG56000.slack.com)
    * Strings
    * Loops
    * If & switch
-   * Optionals3
+   * Optionals
    * Numbers
 
 ---
