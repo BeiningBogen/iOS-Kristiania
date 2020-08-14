@@ -40,11 +40,11 @@ fm.urls(for: .documentDirectory, in: .userDomainMask)
 
 // <app home>/Library, backes opp, skjult
 // For det som ikke er brukerens datafiler
-fm.urls(fol: .libraryDirectory, in: .userDomainMask)
+fm.urls(for: .libraryDirectory, in: .userDomainMask)
 
 // <app home>/Library/Caches, backes IKKE opp, skjult
 // F.eks. for caching av bilder
-fm.urls(fol: .cachesDirectory, in: .userDomainMask)
+fm.urls(for: .cachesDirectory, in: .userDomainMask)
 
 // <app home>/tmp, backes IKKE opp
 // For midlertidige filer som ikke trenger å eksistere mellom launches
@@ -80,7 +80,7 @@ let dict = ["workouts": 23] as NSDictionary
 let path = dir.appendingPathComponent("file.txt").path
 
 // Skriv
-dict.writeToFile(path, atomically: true)
+dict.write(toFile: path, atomically: true)
 
 // Les
 print(NSDictionary(contentsOfFile: path))
@@ -103,9 +103,9 @@ print(NSDictionary(contentsOfFile: path))
 
 ```swift
 let userDefaults = UserDefaults.standard
-userDefaults.setObject("Tim Cook", forKey: "name")
+userDefaults.set("Tim Cook", forKey: "name")
 
-if let name = userDefaults.stringForKey("name") {
+if let name = userDefaults.string(forKey: "name") {
     print("Got Name: \(name)")
 }
 
@@ -139,13 +139,13 @@ class Workout : NSObject, Coding {
 
     required convenience init(coder aDecoder: NSCoder) {
         self.init()
-        name = aDecoder.decodeObjectForKey("name") as! String
-        entries = aDecoder.decodeIntegerForKey("entries")
+        name = aDecoder.decodeObject(forKey: "name") as! String
+        entries = aDecoder.decodeInteger(forKey: "entries")
     }
 
     func encodeWithCoder(aCoder: NSCoder) {
-        aCoder.encodeObject(self.name, forKey: "name")
-        aCoder.encodeInteger(self.entries, forKey: "entries")
+        aCoder.encode(self.name, forKey: "name")
+        aCoder.encode(self.entries, forKey: "entries")
     }
 }
 ```
@@ -164,14 +164,18 @@ let workout = Workout()
 workout.entries = 14
 workout.name = "Pull-ups"
 
-let path = libDir.URLByAppendingPathComponent("workouts").path!
+let path = libDir.appendingPathComponent("workouts")
 
 // Serialisere til disk
-NSKeyedArchiver.archiveRootObject(workout, toFile: path)
+if let data = try? NSKeyedArchiver.archivedData(withRootObject: workout, requiringSecureCoding: true) {
+    try? data.write(to: path)
+}
 
 // Deserialisere fra disk
-let savedWorkout = NSKeyedUnarchiver.unarchiveObjectWithFile(path) as! Workout
-print("\(savedWorkout.name), entries: \(savedWorkout.entries)")
+if let archivedData = try? Data(contentsOf: path),
+        let savedWorkout = (try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(archivedData)) as? Workout {
+    print("\(savedWorkout.name), entries: \(savedWorkout.entries)")
+}
 ```
 
 ---
@@ -263,12 +267,12 @@ I utgangspunktet NSManagedObject's med key/value. Disse **kan** og **bør** ofte
 # Opprett
 
 ```swift
-let entity = NSEntityDescription.entityForName("Workout",
-				inManagedObjectContext: moc)
+let entity = NSEntityDescription.entity(forEntityName: "Workout",
+                                        in: moc)
 
 var workout = Workout(entity: entity!,
 				insertIntoManagedObjectContext: moc)
-workout.name = excersice
+workout.name = exercise
 workout.entries = 0
 
 
@@ -369,7 +373,7 @@ try! moc.save()
 ```swift
 
 //let workoutToRemove = workouts[indexPath.row]
-moc.deleteObject(workoutToRemove)
+moc.delete(workoutToRemove)
 try! moc.save()
 
 ```
@@ -419,7 +423,7 @@ fetchedResultsController.performFetch(&error)
 fetchedResultsController.sections![section].numberOfObjects
 
 // Hent ut objekt med:
-fetchedResultsController.objectAtIndexPath(indexPath)
+fetchedResultsController.object(at: indexPath)
 ```
 
 ---
@@ -447,30 +451,30 @@ class ViewController: UIViewController, UITableViewDataSource,
 ---
 
 ```swift
-func controller(controller: NSFetchedResultsController,
-    didChangeObject anObject: AnyObject,
-    atIndexPath indexPath: NSIndexPath,
-    forChangeType type: NSFetchedResultsChangeType,
-    newIndexPath: NSIndexPath) {
+func controller(controller: NSFetchedResultsController<NSFetchRequestResult>,
+        didChangeObject anObject: AnyObject,
+        atIndexPath indexPath: IndexPath,
+        forChangeType type: NSFetchedResultsChangeType,
+        newIndexPath: IndexPath) {
 
-    switch type {
-        case .Insert:
-            self.tableView.insertRowsAtIndexPaths([newIndexPath],
-                withRowAnimation: UITableViewRowAnimation.Automatic)
-        case .Update:
-            if let cell = self.tableView.cellForRowAtIndexPath(indexPath) {
-                self.configureCell(cell, indexPath: indexPath)
-            }
-        case .Move:
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-            tableView.insertRowsAtIndexPaths([newIndexPath], withRowAnimation: .Automatic)
-        case .Delete:
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-        default:
-            break
+        switch type {
+        case .insert:
+            self.tableView.insertRows(at: [newIndexPath],
+                                      with: UITableView.RowAnimation.automatic)
+        case .update:
+            if let cell = self.tableView.cellForRow(at: indexPath) {
+                    self.configureCell(cell, indexPath: indexPath)
+                }
+        case .move:
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            tableView.insertRows(at: [newIndexPath], with: .automatic)
+        case .delete:
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            default:
+                break
+        }
+
     }
-
-}
 ```
 
 ---
