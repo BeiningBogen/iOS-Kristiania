@@ -9,7 +9,7 @@
 
 Everything is on github [https://github.com/BeiningBogen/iOS-Kristiania](https://github.com/BeiningBogen/iOS-Kristiania)
 
-Slack is good! [PG56000.slack.com](PG56000.slack.com)
+We have a Discord! See Canvas for invite link.
 
 [https://stackoverflow.com/help/how-to-ask](https://stackoverflow.com/help/how-to-ask)
 
