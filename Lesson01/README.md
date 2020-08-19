@@ -26,7 +26,7 @@ https://github.com/BeiningBogen/iOS-Kristiania
 
 ^- Who knows Javascript?
 ^- Who has heard of swift?
-^- Who whas written an iOS app?
+^- Who has written an iOS app?
 
 ---
 
@@ -76,7 +76,7 @@ https://github.com/BeiningBogen/iOS-Kristiania
 
 ---
 
-# Xcode 10
+# Xcode
 
 * Xcode 11 : https://developer.apple.com/support/xcode/
 * Xcode 12 : Coming in September
@@ -262,7 +262,7 @@ if userInput == nil {
 ```
 
 ^It's okay to know that types that aren't optional can't be nil.
-Then you get compile error. Be careful with
+Then you get a compile error. Be careful with force unwrapping.
 
 ---
 # Optionals (cont'd)
