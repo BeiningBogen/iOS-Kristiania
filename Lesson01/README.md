@@ -404,7 +404,7 @@ var jobs = ["Adviser" : 35, "iOS Developer" : 21, "Project Manager" : 32]
 jobs["iOS Developer"]  // = 21
 
 for (key, value) in jobs {
-    println("\(key): \(value)")
+    print("\(key): \(value)")
 }
 
 // Modification
