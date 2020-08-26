@@ -116,6 +116,31 @@ let numberOfLaunches = [19, 55, 135, 1]
 //:    ...
 //:    My water bottle-rocket : 1 launch        // note that that there the missing plural "s" when there is only 1 launch
 
+// Filter rockets
+var rocketsFiltered = [String]()
+for element in rockets {
+    if let rocket = element as? String {
+        rocketsFiltered.append(rocket)
+    }
+}
+
+// Print from each array
+for i in 0..<rocketsFiltered.count {
+    if numberOfLaunches[i] > 1 {
+        print("\(rocketsFiltered[i]) : \(numberOfLaunches[i]) launches")
+    } else {
+        print("\(rocketsFiltered[i]) : \(numberOfLaunches[i]) launch")
+    }
+}
+
+0..<5 // 0, 1, 2, 3, 4
+
+// Or more functional...
+let rocketsFiltered2 = rockets.compactMap { $0 as? String }
+zip(rocketsFiltered2, numberOfLaunches).forEach { values in
+    let (rocket, launches) = values
+    print("\(rocket) - \(launches)")
+}
 
 //:## Task #11
 
@@ -123,12 +148,31 @@ let numberOfLaunches = [19, 55, 135, 1]
 
 func parseLanguages(languages: String) -> [String] {
     // Write your code here
-    return []
+//    var current = ""
+//    var result = [String]()
+//    for character in languages {
+//        if character == "," {
+//            result.append(current)
+//            current = ""
+//            continue
+//        }
+//
+//        if character == " " {
+//            continue
+//        }
+//
+//        current = "\(current)\(character)"
+//    }
+//    result.append(current)
+//
+//    return result
+    return languages.components(separatedBy: ", ")
 }
 
 func sortLanguages(languages: [String]) -> [String] {
     // Write your code here
-    return []
+//    return languages.sorted { $0 > $1 }
+    return languages.sorted()
 }
 
 let languages = "Swift, Java, Objective-C, Python"
