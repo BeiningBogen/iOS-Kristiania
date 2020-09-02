@@ -36,3 +36,17 @@ guard <condition> else {
 No more assumptions! Use a guard to make sure the Set in Task 3 is not empty before attempting to loop over it.
 
 _You may note that it is similar to an if-statement, but it has a very nifty feature that if-statements don't. It lets us unwrap conditionals so that we can use them without fear in the rest of our code. Sort of like if let, except the unwrapped value stays unwrapped outside of the guard-scope. Beyond that, using a guard communicates to other coders that the guarded condition being false is an exception to the program flow, whereas using an if communicates "business as usual"._
+
+# Task 5
+
+Write a function that takes an array of tuples `[(String, Int)]` and returns a Dictionary where the first and second value of each tuple represent keys and values respectively.
+
+# Task 6
+
+Write a function that takes a Dictionary `[Int : Int]` and swaps the key and value for each pair. If there are equal values, add their keys together to form the new value. E.g.:
+
+```
+let dict = [1: 2, 3: 4, 4: 2]
+let swapped = swap(dict)
+print(dict) // [2: 5, 4: 3]
+```
