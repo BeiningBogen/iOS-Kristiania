@@ -56,3 +56,7 @@ let b = a as! MySubClass
 ```
 
 Use casting to check the `isBaiting` value for the duelist variable. If true, print "Shame 🔔", otherwise print "🎉🎉🎉".
+
+# Task 10
+
+Create a struct called `Team` that contains an array of Duelists. Create a computed read-only property called diversity that returns a number representing how many unique ranks are represented in the team. 
