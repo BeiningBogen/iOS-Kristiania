@@ -9,8 +9,6 @@
 
 Everything is on github [https://github.com/BeiningBogen/iOS-Kristiania](https://github.com/BeiningBogen/iOS-Kristiania)
 
-Slack is good! [PG5600.slack.com](https://pg5600.slack.com/)
-
 ---
 
 # Review
