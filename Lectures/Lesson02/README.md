@@ -351,7 +351,7 @@ This is called a trailing closure. Parameters are accessible via $0..$n
 ```swift
 enum WashMode { // NB: Enum names start with a capital
     case unknown
-    case cottom
+    case cotton
     case wool
     case silk
 }
