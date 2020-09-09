@@ -48,5 +48,5 @@ Write a function that takes a Dictionary `[Int : Int]` and swaps the key and val
 ```
 let dict = [1: 2, 3: 4, 4: 2]
 let swapped = swap(dict)
-print(dict) // [2: 5, 4: 3]
+print(swapped) // [2: 5, 4: 3]
 ```
