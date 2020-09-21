@@ -352,9 +352,9 @@ Finished example: action sayHello is called when the button is pressed and sets 
 # XIB example
 
 ```swift
- 	let viewController = UIViewController(nibName: "CustomViewController", bundle: NSBundle.mainBundle())
- 	let nib = NSBundle.mainBundle().loadNibNamed("myView", owner: self, options: nil)
- 	let view = nib.firstObject as? UIView
+ 	let viewController = UIViewController(nibName: "CustomViewController", bundle: Bundle.main)
+ 	let nib = Bundle.main.loadNibNamed("myView", owner: self, options: nil)
+ 	let view = nib?.first as? UIView
 ```
 
 ---
@@ -471,12 +471,12 @@ class ViewController: UIViewController {
     @IBAction func didTapSendMessageButton(sender: AnyObject) {
         // Instantiates new vc from storyboard manually
         // Normally, we let the storyboard do this for us. See alt 2. later.
-        if let receivingViewController = storyboard?.instantiateViewControllerWithIdentifier("receivingVC")
+        if let receivingViewController = storyboard?.instantiateViewController(withIdentifier: "receivingVC")
             as? ReceivingViewController {
             // Sets property at destination vc before it appears
             receivingViewController.message = messageTextField.text!
 
-            presentViewController(receivingViewController, animated: false, completion: nil)
+            present(receivingViewController, animated: true, completion: nil)
         }
 
     }
@@ -550,11 +550,10 @@ class ViewController: UIViewController {
     @IBOutlet weak var message: UITextField!
 
     // Called before transition
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
-        if let vc = segue.destinationViewController as? ReceivingViewController {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let vc = segue.destination as? ReceivingViewController {
             vc.message = message.text
         }
-
     }
 }
 ```
