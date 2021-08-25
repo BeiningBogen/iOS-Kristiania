@@ -61,8 +61,8 @@ https://github.com/BeiningBogen/iOS-Kristiania
 * iPhone OS 3 - 2009
 * iOS 4 - 2010
 ...
-* iOS 13 - 2019
-* iOS 14 - Fall 2020
+* iOS 14 - 2020
+* iOS 15 - Fall 2021
 
 ---
 
@@ -78,8 +78,8 @@ https://github.com/BeiningBogen/iOS-Kristiania
 
 # Xcode
 
-* Xcode 11 : https://developer.apple.com/support/xcode/
-* Xcode 12 : Coming in September
+* Xcode 12 : https://developer.apple.com/support/xcode/
+* Xcode 13 : Currently in beta
 
 ## DEMO
 
