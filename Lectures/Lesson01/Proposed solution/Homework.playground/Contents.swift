@@ -1,5 +1,7 @@
 import UIKit
 
+// ****---- NOTE: These solutions do not follow course progression. ----****
+
 /*:
 
  # Exercises for Lecture #1
