@@ -1,6 +1,6 @@
 import UIKit
 
-
+// ****---- NOTE: These solutions do not follow course progression. ----****
 
 /*:
 # Øvingsoppgaver forelesning 2
