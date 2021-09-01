@@ -1,6 +1,8 @@
 
 import Foundation
 
+// ****---- NOTE: These solutions do not follow course progression. ----****
+
 /*:
  # Exercise #1
  Create an extension on String that allows you to subscript String and get a Character.
