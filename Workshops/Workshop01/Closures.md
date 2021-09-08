@@ -1,12 +1,13 @@
 # Closures in swift
 
-These tasks will be focused on using closures so that we can familiarize ourselves with the syntax.
+These tasks will be focused on using closures so that we can familiarize ourselves with the syntax. 
+Here's a handy: [cheat sheet](https://fuckingclosuresyntax.com).
 
 ## Task 1
 
 Closure syntax looks something like
 ```
-{ (parameters) -> returnType in
+{ (parameterTypes) -> returnType in
     expression
 }
 ```
@@ -26,7 +27,7 @@ If the compiler knows what types to expect in the closure, we can omit them from
 In the case of our constant, we can let the compiler know by specifying the types in the constant definition.
 
 ```
-let closure: (parameters) -> returnType
+let closure: (parameterTypes) -> returnType
 ```
 
 Declare a second closure, but this time with the types in the constant definition, and omitting types from the closure signature.
@@ -45,7 +46,7 @@ In this case, we can refer to our values in the closure with $0, $1, $2 and so o
 
 Just like any other constant or variable, a closure can also be optional.
 ```
-let closure: ((parameters) -> returnType)?
+let closure: ((parameterTypes) -> returnType)?
 ```
 
 Declare an optional closure and try calling it.
