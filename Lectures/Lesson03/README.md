@@ -17,7 +17,8 @@ Everything is on github [https://github.com/BeiningBogen/iOS-Kristiania](https:/
 * Closures
 * Enumeration
 * Classes & Structs
-* Stored Properties
+* Computed Properties
+* Property observers
 * Methods
 * Access control
 
