@@ -137,7 +137,7 @@ c?.wrappedValue = b // 2 strong references to object named "First"
 b = nil // 1 strong reference to object named "First"
 c = nil // 1 strong reference to object named "Second"
 
-// We no longer have a reference to either object, yet they remain in memory because both have a strong reference to them. We have created a strong reference cycle, and it is causing a memory leak.
+// We no longer have a variable referencing either object, yet they remain in memory because both have a strong reference to each other. We have created a strong reference cycle, and it is causing a memory leak.
 
 
 // To fix this, we can use the `weak` keyword.
