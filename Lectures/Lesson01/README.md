@@ -5,7 +5,6 @@
 
 ---
 
-## Benjamin Breiby
 ## Håkon Bogen
 
 ### Beining & Bogen ###
@@ -19,18 +18,6 @@
 https://github.com/BeiningBogen/iOS-Kristiania
 
 ```
-
----
-
-# Quick survey
-
-^- Who knows Javascript?
-^- Who has heard of swift?
-^- Who has written an iOS app?
-
----
-
-![inline 100%](resources/colour_wheel.png)
 
 ---
 
